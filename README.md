@@ -92,3 +92,7 @@ K1pp74P1S8SqtCr4fKGxhZSM9AyHDPSsQPhZSZg=
 
 }
 ```
+
+## Requires
+
+- Perl

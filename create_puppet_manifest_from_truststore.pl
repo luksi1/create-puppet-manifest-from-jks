@@ -3,8 +3,6 @@
 use strict;
 use Getopt::Long;
 
-my $TEMPLATE = 'puppet_template.pp';
-
 my $PARAMS = <<EOS;
     String \$truststore,
     String \$password,
@@ -30,6 +28,7 @@ my $BODY = <<EOS;
 }
 EOS
 
+my $class_name;
 my $truststore;
 my $password;
 my $alias_name;
@@ -44,7 +43,8 @@ my $sha256;
 
 GetOptions (
   "truststore=s" => \$truststore,
-  "password=s"   => \$password)
+  "password=s"   => \$password,
+  "class_name=s" => \$class_name)
   or die("Error in command line arguments\n");
 
 my $command = "keytool -list -keystore $truststore -storepass $password | awk -F, '{print \$1}' | grep -v 'Certificate fingerprint' | grep -v '^Keystore' | grep -v 'Your keystore contains' | egrep -v '^\$'";
@@ -98,7 +98,7 @@ foreach my $t(@truststores) {
   print $pp "# $md5\n";
   print $pp "# $sha1\n";
   print $pp "# $sha256\n";
-  print $pp "define rtjp::certs::${cert_name} (\n";
+  print $pp "define ${class_name}::${cert_name} (\n";
   print $pp $PARAMS;
   if ($alias_name =~ /\*/) {
     print $pp "    String \$aliasname = '$alias_name'\n) {\n\n";

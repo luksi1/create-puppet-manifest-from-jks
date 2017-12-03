@@ -9,7 +9,23 @@ Create Puppet manifests from a Java keystore
 
 The class name parameter will indicate which path the class will have. For instance, if you wish for all of your trustore certificates to be used under profile::certs, then you would pass 'profile::certs' as the classname.
 
-## Example
+#### Using the output
+
+Simply move the created .pp files to their appropriate path in your class.
+
+To use them, pass a mandatory trustore, truststore password, and the directory where you wish the trusts should be written to. Additionally, you can also pass an optional alias.
+
+Ex.
+
+```puppet
+::profile::cert::globalsign_organization_validation_ca_sha256_g2 {'my_important_app::globalsign_organization_validation_ca_sha256_g2':
+  trustore   => 'my_import_app.jks',
+  password   => 'password',
+  trusts_dir => '/usr/local/src',
+}
+```
+
+## Script output
 
 The output will look like this.
 
